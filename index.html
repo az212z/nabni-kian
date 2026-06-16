@@ -15,7 +15,7 @@
   --shadow:0 28px 64px -32px rgba(31,36,43,.42);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:hidden}
 body{font-family:'Almarai',sans-serif;background:var(--paper);color:var(--ink);line-height:1.85;overflow-x:hidden}
 h1,h2,h3,.disp{font-family:'Alexandria',sans-serif;font-weight:700;line-height:1.2;letter-spacing:-.01em}
 img{display:block;max-width:100%}
@@ -144,7 +144,7 @@ footer .meta{font-size:.9rem;margin-bottom:22px}
 .wa:hover{transform:scale(1.1)}.wa svg{width:30px;height:30px;fill:#fff}
 
 @media(max-width:900px){
-  .menu{position:fixed;inset-block:0 auto;inset-inline-end:0;top:0;height:100vh;width:74%;max-width:320px;background:var(--white);flex-direction:column;justify-content:center;gap:30px;transform:translateX(110%);transition:.45s;box-shadow:var(--shadow);z-index:950}
+  .menu{position:fixed;inset-block:0 auto;inset-inline-end:0;top:0;height:100vh;width:74%;max-width:320px;background:var(--white);flex-direction:column;justify-content:center;gap:30px;transform:translateX(-110%);transition:.45s;box-shadow:var(--shadow);z-index:950}
   .menu.open{transform:none}
   .burger{display:flex;z-index:960}
   .hgrid,.agrid,.wgrid{grid-template-columns:1fr;gap:36px}
