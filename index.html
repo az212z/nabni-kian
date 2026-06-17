@@ -17,7 +17,8 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;overflow-x:hidden}
 body{font-family:'Almarai',sans-serif;background:var(--paper);color:var(--ink);line-height:1.85;overflow-x:hidden}
-h1,h2,h3,.disp{font-family:'Alexandria',sans-serif;font-weight:700;line-height:1.2;letter-spacing:-.01em}
+h1,h2,h3,.disp{font-family:'Alexandria',sans-serif;font-weight:700;line-height:1.5;letter-spacing:normal}
+.htext h1{line-height:1.42}
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 .wrap{width:min(1200px,92vw);margin-inline:auto}
@@ -51,7 +52,7 @@ a{color:inherit;text-decoration:none}
 .hgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:end}
 .hidx{display:flex;gap:8px;align-items:center;margin-bottom:22px}
 .hidx .ln{width:54px;height:1px;background:var(--bronze)}
-.htext h1{font-size:clamp(2.6rem,6.4vw,4.8rem);margin-bottom:18px}
+.htext h1{font-size:clamp(2.3rem,7vw,4.8rem);margin-bottom:18px}
 .htext h1 .ac{color:var(--petrol)}
 .htext .sub{font-size:1.14rem;color:var(--soft);max-width:42ch;margin-bottom:32px}
 .hcta{display:flex;gap:14px;flex-wrap:wrap}
@@ -69,9 +70,46 @@ a{color:inherit;text-decoration:none}
 .cap-strip span{font-family:'Alexandria';font-weight:600;font-size:.92rem;color:var(--soft);display:flex;align-items:center;gap:9px}
 .cap-strip span::before{content:"";width:7px;height:7px;background:var(--bronze);border-radius:50%}
 
-.rv{opacity:0;transform:translateY(32px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.rv{opacity:0;transform:translateY(38px) scale(.985);transition:opacity 1s cubic-bezier(.16,.84,.32,1),transform 1s cubic-bezier(.16,.84,.32,1);will-change:opacity,transform}
 .rv.in{opacity:1;transform:none}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+.d1{transition-delay:.09s}.d2{transition-delay:.18s}.d3{transition-delay:.27s}.d4{transition-delay:.36s}
+
+/* scroll progress bar */
+#prog{position:fixed;top:0;inset-inline:0;height:3px;z-index:1000;transform-origin:right;transform:scaleX(0);background:linear-gradient(90deg,var(--petrol2),var(--bronze))}
+
+/* nav underline */
+.menu a:not(.nbtn){position:relative}
+.menu a:not(.nbtn)::after{content:"";position:absolute;inset-block-end:-6px;inset-inline-end:0;width:0;height:2px;background:var(--petrol);transition:width .35s cubic-bezier(.16,.84,.32,1)}
+.menu a:not(.nbtn):hover::after{width:100%}
+
+/* hero image reveal + parallax wrapper */
+.himg img{transition:transform .8s cubic-bezier(.16,.84,.32,1)}
+.himg.in img{animation:imgIn 1.5s cubic-bezier(.16,.84,.32,1) both}
+@keyframes imgIn{from{transform:scale(1.2)}to{transform:scale(1.04)}}
+
+/* button arrow micro-interaction */
+.btn-p::after{content:"\2190";font-family:'Alexandria';margin-inline-start:2px;transition:transform .35s cubic-bezier(.16,.84,.32,1);display:inline-block}
+.btn-p:hover::after{transform:translateX(-6px)}
+
+/* service card lift */
+.scard{position:relative;overflow:hidden}
+.scard::before{content:"";position:absolute;top:0;inset-inline-end:0;width:0;height:3px;background:var(--bronze);transition:width .4s cubic-bezier(.16,.84,.32,1)}
+.scard:hover::before{width:100%}
+.scard:hover .num{color:var(--petrol)}
+.scard .num,.scard h3{transition:color .35s}
+
+/* whatsapp pulse */
+.wa::before{content:"";position:absolute;inset:0;border-radius:50%;background:#25d366;z-index:-1;animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{transform:scale(1);opacity:.55}70%,100%{transform:scale(1.9);opacity:0}}
+
+/* stat number pop */
+.st b,.rcard.agg .big{will-change:transform}
+
+@media(prefers-reduced-motion:reduce){
+  .rv{transition:none!important;opacity:1!important;transform:none!important}
+  .himg.in img,.wa::before{animation:none!important}
+  #prog{display:none}
+}
 
 section{padding:100px 0;position:relative}
 .shead{max-width:660px;margin-bottom:54px}
@@ -144,22 +182,43 @@ footer .meta{font-size:.9rem;margin-bottom:22px}
 .wa:hover{transform:scale(1.1)}.wa svg{width:30px;height:30px;fill:#fff}
 
 @media(max-width:900px){
-  .menu{position:fixed;inset-block:0 auto;inset-inline-end:0;top:0;height:100vh;width:74%;max-width:320px;background:var(--white);flex-direction:column;justify-content:center;gap:30px;transform:translateX(-110%);transition:.45s;box-shadow:var(--shadow);z-index:950}
+  .menu{position:fixed;inset-block:0 auto;inset-inline-end:0;top:0;height:100vh;width:78%;max-width:330px;background:var(--white);flex-direction:column;justify-content:center;gap:26px;transform:translateX(-110%);transition:.45s;box-shadow:var(--shadow);z-index:950}
   .menu.open{transform:none}
+  .menu a{font-size:1.12rem}
+  .menu a.nbtn{font-size:1rem;padding:13px 28px}
   .burger{display:flex;z-index:960}
-  .hgrid,.agrid,.wgrid{grid-template-columns:1fr;gap:36px}
+  section{padding:66px 0}
+  .hero{padding:120px 0 48px}
+  .hero::before{display:none}
+  .hgrid,.agrid,.wgrid{grid-template-columns:1fr;gap:34px}
+  .hgrid{align-items:start}
   .himg{order:-1;aspect-ratio:16/11}
+  .htext .sub{max-width:none}
+  .hcta .btn{flex:1 1 auto;justify-content:center}
+  .shead{margin-bottom:40px}
   .sgrid{grid-template-columns:1fr}
-  .scard{border-inline-start:0!important;border-top:1px solid var(--line)!important}
+  .scard{border-inline-start:0!important;border-top:1px solid var(--line)!important;padding:30px 26px}
   .scard:first-child{border-top:0!important}
   .rgrid{grid-template-columns:1fr}
   .pitem.lg{min-height:300px}
+  .stbar .wrap{padding:42px 0;gap:30px 20px}
+  .st{flex:1 1 40%}
+  .cap-strip .wrap{justify-content:center;gap:12px 18px}
+  .cap-strip span{font-size:.84rem}
 }
-@media(max-width:520px){.wcol.two{grid-template-columns:1fr}.cinfo{gap:24px}}
+@media(max-width:520px){
+  .wcol.two{grid-template-columns:1fr}
+  .cinfo{gap:22px}
+  .hidx{flex-wrap:wrap;gap:8px 10px}
+  .hidx .ln{width:32px}
+  section{padding:56px 0}
+  .scard{padding:26px 22px}
+}
 </style>
 </head>
 <body>
 <div id="pre"><div class="pl">نبني <b>كيان</b></div><div class="bar"><i></i></div></div>
+<div id="prog"></div>
 
 <nav class="nav" id="nav"><div class="wrap">
   <a href="#home" class="brand">نبني كيان<b>.</b></a>
@@ -250,8 +309,8 @@ footer .meta{font-size:.9rem;margin-bottom:22px}
 </div></section>
 
 <div class="stbar"><div class="wrap">
-  <div class="st rv"><b>4.6</b><span>تقييم خرائط Google</span></div>
-  <div class="st rv d1"><b>41</b><span>تقييم موثّق</span></div>
+  <div class="st rv"><b class="cnt" data-to="4.6" data-dec="1">0</b><span>تقييم خرائط Google</span></div>
+  <div class="st rv d1"><b class="cnt" data-to="41">0</b><span>تقييم موثّق</span></div>
   <div class="st rv d2"><b>سكني وتجاري</b><span>نطاق أعمالنا</span></div>
   <div class="st rv d3"><b>تبوك</b><span>مقرّنا</span></div>
 </div></div>
@@ -264,7 +323,7 @@ footer .meta{font-size:.9rem;margin-bottom:22px}
   </div>
   <div class="rgrid">
     <div class="rcard rv"><div class="st-row">★★★★★</div><p>أقدّم جزيل شكري وعظيم امتناني على رقيّ تعاملهم وجميل أفكارهم. كانت تجربتي الأولى معهم وزادني العمل معهم ثقةً بما يصمّمون وينفّذون.</p><div class="who"><div class="av">إ</div><div><b>إبراهيم الحربي</b><span>عميل · خرائط Google</span></div></div></div>
-    <div class="rcard agg rv d1"><div class="big">4.6</div><div class="stars">★★★★★</div><span>41 تقييماً على خرائط Google</span></div>
+    <div class="rcard agg rv d1"><div class="big cnt" data-to="4.6" data-dec="1">0</div><div class="stars">★★★★★</div><span>41 تقييماً على خرائط Google</span></div>
     <div class="rcard rv d2"><div class="st-row">★★★★★</div><p>تمّ الانتهاء من عمل ديكور لصالة بيتي والحمد لله النتيجة كانت أفضل من المتوقّع، وشغلهم احترافي، وشكراً على التصميم الرائع ودقّة التنفيذ.</p><div class="who"><div class="av">م</div><div><b>محمد الحربي</b><span>Local Guide · خرائط Google</span></div></div></div>
   </div>
 </div></section>
@@ -305,15 +364,29 @@ footer .meta{font-size:.9rem;margin-bottom:22px}
     burger.addEventListener('click',function(){menu.classList.toggle('open');});
     menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open');});});
   }
+  // count-up numbers
+  function countUp(el){
+    if(el.__c)return; el.__c=1;
+    var to=parseFloat(el.getAttribute('data-to'))||0, dec=parseInt(el.getAttribute('data-dec')||'0',10), dur=1400, t0=null;
+    function step(t){ if(t0===null)t0=t; var p=Math.min((t-t0)/dur,1); var e=1-Math.pow(1-p,3);
+      el.textContent=(to*e).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});
+      if(p<1)requestAnimationFrame(step); else el.textContent=to.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec}); }
+    requestAnimationFrame(step);
+  }
   var rvs=[].slice.call(document.querySelectorAll('.rv'));
-  function reveal(el){el.classList.add('in');}
+  function reveal(el){el.classList.add('in'); if(el.querySelectorAll){[].forEach.call(el.querySelectorAll('.cnt'),countUp);} if(el.classList&&el.classList.contains('cnt'))countUp(el);}
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){reveal(e.target);io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
     rvs.forEach(function(el){io.observe(el);});
   }else{rvs.forEach(reveal);}
   function safety(){var h=window.innerHeight;rvs.forEach(function(el){var r=el.getBoundingClientRect();if(r.top<h*0.95)reveal(el);});}
-  window.addEventListener('scroll',safety);safety();
-  setTimeout(function(){rvs.forEach(function(el){el.style.transition='none';el.classList.add('in');el.style.opacity='1';el.style.transform='none';});},2800);
+  window.addEventListener('scroll',safety,{passive:true});safety();
+  setTimeout(function(){rvs.forEach(function(el){el.style.transition='none';el.classList.add('in');el.style.opacity='1';el.style.transform='none';[].forEach.call(el.querySelectorAll?el.querySelectorAll('.cnt'):[],countUp);});},3000);
+
+  // scroll progress bar
+  var prog=document.getElementById('prog');
+  function onProg(){var d=document.documentElement;var sc=d.scrollTop||document.body.scrollTop||0;var hh=d.scrollHeight-d.clientHeight;var p=hh>0?Math.min(sc/hh,1):0;if(prog)prog.style.transform='scaleX('+p+')';}
+  window.addEventListener('scroll',onProg,{passive:true});onProg();
 })();
 </script>
 </body>
